@@ -1,0 +1,196 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+    <style>
+        .neutro {
+            color: black;
+            background-color: white;
+        }
+        .correcto {
+            color: black;
+            background-color: lightgreen;
+        }
+        .error {
+            color: white;
+            background-color: orangered;
+        }
+        .fclass {
+            background-color: lightgray;
+        }
+    </style>
+    <script>
+ 
+            function validarUser() {
+                var usuario = document.getElementById("usuario");
+
+                if (usuario.value.length < 3) {
+                    document.getElementById("mensajeUser").innerHTML = "Introduce un nombre de usuario válido.";
+                    usuario.classList.replace("neutro", "error");
+                    usuario.classList.replace("correcto", "error");
+                    usuario.focus();
+                    return false;
+                }
+                else {
+                    document.getElementById("mensajeUser").innerHTML = "";
+                    usuario.classList.replace("neutro", "correcto");
+                    usuario.classList.replace("error", "correcto");
+                }
+            }
+
+            function validarName() {
+                var nombre = document.getElementById("name");
+
+                if (nombre.value.length == 0) {
+                    document.getElementById("mensajeName").innerHTML = "El campo \"Nombre y apellidos\" es obligatorio.";
+                    nombre.classList.replace("neutro", "error");
+                    nombre.classList.replace("correcto", "error");
+                    nombre.focus();
+                    return false;
+                }
+                else {
+                    document.getElementById("mensajeName").innerHTML = "";
+                    nombre.classList.replace("neutro", "correcto");
+                    nombre.classList.replace("error", "correcto");
+                }
+            }
+
+            function validarPass() {
+                var pass = document.getElementById("password");
+                var valor = pass.value;
+                var mayuscula = 0;
+                var numero = 0;
+                var minuscula = 0;
+                for (i = 0; i < valor.length; i++) {
+                    letra = valor.substr(i, 1);
+                    if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(letra) >= 0) {
+                        mayuscula = 1;
+                    }
+                    if ("0123456789".indexOf(letra) >= 0) {
+                        numero = 1;
+                    }
+                    if ("abcdefghijklmnopqrstuvwxyz".indexOf(letra) >= 0) {
+                        minuscula = 1;
+                    }
+                }
+
+                if (mayuscula == 1 && numero == 1 && minuscula == 1 && valor.length >= 5) {
+                    pass.classList.replace("neutro", "correcto");
+                    pass.classList.replace("error", "correcto");
+                    document.getElementById("mensajePass").innerHTML = "";
+                }
+                else {
+                    document.getElementById("mensajePass").innerHTML = "Contraseña incorrecta.";
+                    pass.classList.replace("neutro", "error");
+                    pass.classList.replace("correcto", "error");
+                    pass.focus();
+                    return false;
+                }
+            }
+
+            function validarEmail() {
+                var email = document.getElementById("email");
+                var valor = email.value;
+                var arroba = 0;
+                var punto = 0;
+                for (i = 0; i < valor.length; i++) {
+                    letra = valor.substr(i, 1);
+                    if ("@".indexOf(letra) >= 0) {
+                        arroba = 1;
+                    }
+                    if (".".indexOf(letra) >= 0) {
+                        punto = 1;
+                    }
+                }
+
+                    if (arroba == 1 && punto == 1 && valor.length >= 6) {
+                        email.classList.replace("neutro", "correcto");
+                        email.classList.replace("error", "correcto");
+                        document.getElementById("mensajeEmail").innerHTML = "";
+                    }
+                    else {
+                        document.getElementById("mensajeEmail").innerHTML = "Email incorrecto.";
+                        email.classList.replace("neutro", "error");
+                        email.classList.replace("correcto", "error");
+                        email.focus();
+                        return false;
+                    }
+            }
+    
+            function eraseAll() {
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("usuario").value = "";
+                document.getElementById("name").value = "";
+            }
+
+        function validarAll() {
+            validarEmail();
+            validarName();
+            validarPass();
+            validarUser();
+
+            if (validarEmail() == false || validarPass() == false || validarUser() == false || validarName() == false) {
+                alert("Error al enviar el formulario.")
+            }
+            else {
+                alert("Formulario enviado correctamente.")
+                document.formulario.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="formulario">
+        <table id="tablaForm" class="fclass">
+            <tr>
+                <td> Introduce un email (p.ej.: pepe@foc.es): </td>
+                <td>
+                    <input type="email" id="email" class="neutro" size="30">
+                    <button type="button" onclick="validarEmail();">Validar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Introduce passw (5 caracteres, al menos 1 May, 1 Min, 1 Numero): </td>
+                <td>
+                    <input type="password" id="password" class="neutro" size="30">
+                    <button type="button" onclick="validarPass();">Validar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Introduce Nombre de usuario (tres o más caracteres): </td>
+                <td>
+                    <input type="text" id="usuario" class="neutro" size="30">
+                    <button type="button" onclick="validarUser()">Validar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Introduce Nombre y apellidos (obligatorio): </td>
+                <td>
+                    <input type="text" id="name" class="neutro" size="30">
+                    <button type="button" onclick="validarName();">Validar</button>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <button type="button" onclick="validarAll()">Control total + envio</button>
+                </td>
+                <td align="left">
+                    <button type="button" onclick="eraseAll();">Limpiar todos los campos</button>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td class="alerta">
+                    <p id="mensajeUser" align="right"></p>
+                    <p id="mensajeName" align="right"></p>
+                    <p id="mensajePass" align="right"></p>
+                    <p id="mensajeEmail" align="right"></p>
+                    <p id="mensaje" align="right"></p>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
